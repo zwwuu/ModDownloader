@@ -1,0 +1,44 @@
+{
+  "name": "ModDownloader",
+  "productName": "ModDownloader",
+  "version": "1.0.0",
+  "description": "A simple tool for downloading Steam mods",
+  "main": "src/main.js",
+  "scripts": {
+	"start": "electron-forge start",
+	"package": "electron-forge package",
+	"make": "electron-forge make"
+  },
+  "author": "Flipppzw",
+  "license": "MIT",
+  "config": {
+	"forge": {
+	  "make_targets": {
+		"win32": [
+		  "squirrel"
+		]
+	  },
+	  "electronPackagerConfig": {
+		"packageManager": "npm",
+		"icon": "resource/app.ico",
+		"ignore": [
+		  ".idea"
+		],
+		"asar": false
+	  },
+	  "electronWinstallerConfig": {
+		"name": "ModDownloader"
+	  }
+	}
+  },
+  "dependencies": {
+	"electron-compile": "^6.4.3",
+	"electron-squirrel-startup": "^1.0.0",
+	"jquery": "^3.3.1"
+  },
+  "devDependencies": {
+	"electron-forge": "^5.2.2",
+	"electron-prebuilt-compile": "2.0.4",
+	"electron": "latest"
+  }
+}
