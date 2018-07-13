@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Mod Downloader</title>
+	<link rel="stylesheet" href="../lib/css/uikit.min.css">
+</head>
+<body>
+<ul class="uk-flex-center  " uk-tab>
+	<li><a href="#" uk-icon="icon: home"></a> Home</li>
+	<li><a href="#" uk-icon="icon: info"></a> About</li>
+</ul>
+
+<ul class="uk-switcher">
+	<li id="home">
+		<div class="uk-section ">
+			<div class="uk-flex uk-flex-center">
+				<form class="uk-form-horizontal">
+					<div class="uk-margin" uk-form-custom="target: true">
+						<input type="file" id="steamcmd-path">
+						<input class="uk-input uk-form-width-medium" type="text" placeholder="Select steamcmd.exe" disabled>
+						<button class="uk-button uk-button-default" type="button">Browse</button>
+					</div>
+
+					<div class="uk-margin">
+						<label class="uk-form-label" for="ids">ID or Url</label>
+						<textarea class="uk-textarea" rows="5" id="ids" placeholder="Separate by line or space"></textarea>
+						<input type="submit" class="uk-button uk-button-default" value="Download">
+					</div>
+					<div class="uk-text-danger" id="message"></div>
+				</form>
+			</div>
+		</div>
+	</li>
+
+	<li id="about">
+		<div class="uk-flex uk-flex-center">
+			<div class="uk-flex-column uk-text-center">
+				<p class="uk-h3">A simple tool for downloading Steam mods</p>
+				<div class="uk-tile ">
+					<div uk-tooltip="title: Source code">
+						<a href="https://github.com/Flipppzw/ModDownloader" class="uk-icon-link" uk-icon="github">GitHub </a>
+					</div>
+				</div>
+
+				<div class="uk-tile ">
+					<div uk-tooltip="title: Download">
+						<a href="https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip" class="uk-icon-link"
+						   uk-icon="download">SteamCMD </a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</li>
+</ul>
+
+</body>
+<script type="text/javascript" src="index.js"></script>
+<script type="text/javascript" src="../lib/js/uikit.min.js"></script>
+<script type="text/javascript" src="../lib/js/uikit-icons.min.js"></script>
+</html>
