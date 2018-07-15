@@ -1,7 +1,8 @@
 # Mod Downloader
 
 A simple tool for downloading Steam mods
-![](resource/screenshot.JPG)
+
+![MD](resource/screenshot.JPG)
 
 ## Requirement
 
@@ -9,7 +10,7 @@ A simple tool for downloading Steam mods
 
 ### Download
 
-Get the [latest release](https://github.com/Flipppzw/mod-downloader/releases).
+Get the [latest release](https://github.com/Flipppzw/ModDownloader/releases).
 
 ## Build From Source
 
