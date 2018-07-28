@@ -2,7 +2,7 @@
 
 A simple tool for downloading Steam mods
 
-**ONLY support gameS that allow public download through the Steam API**
+**ONLY support games that allow public download through the Steam API**
 ![MD](resource/screenshot.JPG)
 
 ## Requirement
