@@ -1,75 +1,126 @@
 'use strict';
 
-import {ipcRenderer} from 'electron';
-import jquery from "jquery";
+const {dialog, getCurrentWindow, shell} = require('electron').remote;
+const fs = require('fs');
+const request = require('request');
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+const Store = require('electron-store');
 
-window.$ = window.jQuery = jquery;
+document.getElementById('browseButton').addEventListener("click", selectPath);
+document.getElementById("close").addEventListener("click", close);
+document.getElementById("minimize").addEventListener("click", minimize);
+document.getElementById("downloadButton").addEventListener("click", downloadMod);
+document.getElementById("openButton").addEventListener("click", openModFolder);
 
-function downloadMod(modIDList) {
-	document.getElementById('message').innerHTML = "Downloading....";
-	let validDataArray = getPublishedDetail(modIDList);
+const store = new Store();
 
-	if (validDataArray.length === 0) {
+let steamcmdPath = "";
+
+if (store.has("path")) {
+	document.getElementById('steamcmdPath').value = store.get('path');
+	steamcmdPath = document.getElementById('steamcmdPath').value;
+}
+
+function selectPath() {
+	steamcmdPath = dialog.showOpenDialog({
+		properties: ['openDirectory']
+	});
+
+	if (steamcmdPath === undefined) {
 		return;
 	}
-
-	let steamcmdPath = document.getElementById('steamcmd-path').files[0].path;
-	ipcRenderer.sendSync('downloadMod', steamcmdPath, validDataArray);
-	$('#message').text("Done").show().fadeOut(8000);
+	document.getElementById('steamcmdPath').value = steamcmdPath;
+	store.set("path", steamcmdPath);
 }
 
-function getPublishedDetail(modIDList) {
-	let targetURL = "https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/";
-	let validDataArray = [];
+function close() {
+	getCurrentWindow().close();
+}
 
-	for (let i = 0; i < modIDList.length; i++) {
-		let postData = {
+function minimize() {
+	getCurrentWindow().minimize();
+}
+
+function openModFolder() {
+	shell.showItemInFolder(`${steamcmdPath}\\steamapps\\workshop\\content\\*`)
+}
+
+function downloadMod() {
+	let text = document.getElementById("downloadList").value;
+	let path = document.getElementById('steamcmdPath').value;
+	if (text.length === 0 && path === "") {
+		return;
+	}
+	document.getElementById("downloadButton").classList.add("is-loading");
+	let modList = formatText(text);
+	const promises = modList.map(mod => getValidModList(mod));
+	Promise.all(promises).then((validModList) => {
+		if (validModList.length === 0) {
+			return;
+		}
+		generateScript(validModList);
+
+		exec(`${steamcmdPath}/steamcmd +runscript script.txt`).then(() => {
+			document.getElementById("downloadList").value = "";
+			document.getElementById("downloadButton").classList.remove("is-loading");
+		});
+	});
+}
+
+function generateScript(validModList) {
+	let workshop = "";
+	for (let i = 0; i < validModList.length; i++) {
+		workshop += `workshop_download_item ${validModList[i].gameID} ${validModList[i].modID}\n`
+	}
+
+	let script = `@ShutdownOnFailedCommand 1
+@NoPromptForPassword 1
+login anonymous 
+${workshop}
+quit`;
+
+	fs.writeFile(`${steamcmdPath}/script.txt`, script, err => {
+		if (err) {
+			throw err;
+		}
+	});
+}
+
+function getValidModList(modID) {
+	const option = {
+		uri: "https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/",
+		form: {
 			itemcount: 1,
-			publishedfileids: {0: modIDList[i]}
-		};
+			publishedfileids: {0: modID}
+		},
+		json: true
+	};
 
-		$.ajax({
-			type: 'POST',
-			url: targetURL,
-			data: postData,
-			async: false
-		})
-			.done(function (data) {
-				if (data['response']['publishedfiledetails'][0].hasOwnProperty('consumer_app_id')) {
-					let validData = {};
-					validData.gameID = data['response']['publishedfiledetails'][0]['consumer_app_id'];
-					validData.modID = modIDList[i];
+	return new Promise(function (resolve) {
+		request.post(option, function (err, httpResponse, body) {
+			if (err) {
+				return;
+			}
 
-					validDataArray.push(validData);
-				} else {
-					i++;
-				}
-			})
-			.fail(function () {
-				$('#message').text("Check your Internet connection").show().fadeOut(8000);
-			});
-	}
-
-	return validDataArray;
+			if (body['response']['publishedfiledetails'][0].hasOwnProperty('consumer_app_id')) {
+				let validData = {};
+				validData.gameID = body['response']['publishedfiledetails'][0]['consumer_app_id'];
+				validData.modID = modID;
+				resolve(validData);
+			}
+		});
+	});
 }
 
-function removeDuplicates(arr) {
-	let s = new Set(arr);
-	let unique = s.values();
-	return Array.from(unique);
-}
-
-$("form").submit(function (event) {
-	event.preventDefault();
-	let trimmed = document.getElementById('ids').value.replace(/\n/g, " ").replace(/\s+/g, " ").trim();
-	let arrayofLines = trimmed.split(" ");
-	let modIDList = [];
-
-	for (let i = 0; i < arrayofLines.length; i++) {
-		let modID = arrayofLines[i].replace(/[^0-9]+/gm, "");
-		modIDList.push(modID);
+function formatText(text) {
+	let modList = text.replace(/\n/g, " ").replace(/\s+/g, " ").trim().split(" ");
+	let downloadList = [];
+	for (let i = 0; i < modList.length; i++) {
+		let modID = modList[i].replace(/[^0-9]+/gm, "");
+		downloadList.push(modID);
 	}
-
-	modIDList = removeDuplicates(modIDList);
-	downloadMod(modIDList);
-});
+	return downloadList.filter(mod => mod !== "").filter(function (mod, i, arr) {
+		return arr.indexOf(mod) === i;
+	});
+}
