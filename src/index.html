@@ -1,61 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
 	<meta charset="UTF-8">
 	<title>Mod Downloader</title>
-	<link rel="stylesheet" href="../lib/css/uikit.min.css">
+	<link rel="stylesheet" href="../assets/css/bulma.min.css">
+	<link rel="stylesheet" href="stylesheet.css">
+	<script defer src="../assets/js/all.min.js"></script>
 </head>
 <body>
-<ul class="uk-flex-center  " uk-tab>
-	<li><a href="#" uk-icon="icon: home"></a> Home</li>
-	<li><a href="#" uk-icon="icon: info"></a> About</li>
-</ul>
+<section>
+	<div class="container is-pulled-right">
+		<button id="minimize" class="button is-warning">
+				<span>
+					<i class="fas fa-window-minimize"></i>
+				</span>
+		</button>
+		<button id="close" class="button is-danger">
+				<span>
+					<i class="fas fa-window-close"></i>
+				</span>
+		</button>
+	</div>
+</section>
 
-<ul class="uk-switcher">
-	<li id="home">
-		<div class="uk-section ">
-			<div class="uk-flex uk-flex-center">
-				<form class="uk-form-horizontal">
-					<div class="uk-margin" uk-form-custom="target: true">
-						<input type="file" id="steamcmd-path">
-						<input class="uk-input uk-form-width-medium" type="text" placeholder="Select steamcmd.exe" disabled>
-						<button class="uk-button uk-button-default" type="button">Browse</button>
-					</div>
-
-					<div class="uk-margin">
-						<label class="uk-form-label" for="ids">ID or Url</label>
-						<textarea class="uk-textarea" rows="5" id="ids" placeholder="Separate by line or space"></textarea>
-						<input type="submit" class="uk-button uk-button-default" value="Download">
-					</div>
-					<div class="uk-text-danger" id="message"></div>
-				</form>
+<section class="section">
+	<div class="container">
+		<label for="steamcmdPath" class="label">Directory</label>
+		<div class="field has-addons ">
+			<div class="control has-icons-left is-expanded">
+				<input id="steamcmdPath" class="input" type="text" readonly>
+				<span class="icon">
+					<i class="fas fa-folder is-small"></i>
+				</span>
+			</div>
+			<div>
+				<button id="browseButton" class="button is-info">Browse</button>
 			</div>
 		</div>
-	</li>
 
-	<li id="about">
-		<div class="uk-flex uk-flex-center">
-			<div class="uk-flex-column uk-text-center">
-				<p class="uk-h3">A simple tool for downloading Steam mods</p>
-				<div class="uk-tile ">
-					<div uk-tooltip="title: Source code">
-						<a href="https://github.com/Flipppzw/ModDownloader" class="uk-icon-link" uk-icon="github">GitHub </a>
-					</div>
-				</div>
-
-				<div class="uk-tile ">
-					<div uk-tooltip="title: Download">
-						<a href="https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip" class="uk-icon-link"
-						   uk-icon="download">SteamCMD </a>
-					</div>
-				</div>
+		<div class="field">
+			<label class="label">Mod IDs/URLs</label>
+			<div class="control">
+				<textarea class="textarea is-focused" id="downloadList" placeholder="Separate by line breaks or space"></textarea>
 			</div>
 		</div>
-	</li>
-</ul>
+		<div class="field">
+			<p class="control">
+				<button id="downloadButton" class="button is-success is-fullwidth is-rounded">Download</button>
+			</p>
+		</div>
 
+		<button id="openButton" class="button is-fullwidth is-rounded">Open Mod Folder</button>
+	</div>
+</section>
+
+<section>
+	<div class="container">
+		<button class="button is-link is-outlined is-pulled-left">
+				<span class="icon">
+					<i class="fas fa-file-download"></i>
+				</span>
+			<span>SteamCMD</span>
+		</button>
+
+		<button class="button is-link is-outlined is-pulled-right">
+				<span class="icon">
+				<i class="fab fa-github"></i>
+				</span>
+			<span>Flipppzw</span>
+		</button>
+	</div>
+</section>
 </body>
-<script type="text/javascript" src="index.js"></script>
-<script type="text/javascript" src="../lib/js/uikit.min.js"></script>
-<script type="text/javascript" src="../lib/js/uikit-icons.min.js"></script>
+<script src="index.js"></script>
 </html>

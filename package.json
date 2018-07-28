@@ -1,7 +1,7 @@
 {
-  "name": "ModDownloader",
+  "name": "mod-downloader",
   "productName": "ModDownloader",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A simple tool for downloading Steam mods",
   "main": "src/main.js",
   "scripts": {
@@ -34,11 +34,12 @@
   "dependencies": {
 	"electron-compile": "^6.4.3",
 	"electron-squirrel-startup": "^1.0.0",
-	"jquery": "^3.3.1"
+	"electron-store": "^2.0.0",
+	"request": "^2.87.0"
   },
   "devDependencies": {
+	"electron": "^2.0.5",
 	"electron-forge": "^5.2.2",
-	"electron-prebuilt-compile": "2.0.4",
-	"electron": "latest"
+	"electron-prebuilt-compile": "2.0.4"
   }
 }
