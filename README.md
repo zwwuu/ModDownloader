@@ -3,6 +3,7 @@
 A simple tool for downloading Steam mods
 
 **ONLY support games that allow public download through the Steam API**
+
 ![MD](resource/screenshot.JPG)
 
 ## Requirement
@@ -11,7 +12,7 @@ A simple tool for downloading Steam mods
 
 ### Download
 
-Get the [latest release](https://github.com/Flipppzw/ModDownloader/releases).
+Get the [latest release](https://github.com/Flazw/ModDownloader/releases).
 
 ## Build From Source
 
