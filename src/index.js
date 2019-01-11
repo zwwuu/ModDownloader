@@ -77,7 +77,7 @@ function downloadCMD() {
 }
 
 function about() {
-	shell.openExternal('https://github.com/Flapzw/ModDownloader');
+	shell.openExternal('https://github.com/wuuzw/ModDownloader');
 }
 
 function generateScript(validModList) {
