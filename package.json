@@ -1,45 +1,47 @@
 {
-  "name": "mod-downloader",
-  "productName": "ModDownloader",
-  "version": "1.1.1",
-  "description": "A simple tool for downloading Steam mods",
-  "main": "src/main.js",
-  "scripts": {
-	"start": "electron-forge start",
-	"package": "electron-forge package",
-	"make": "electron-forge make"
-  },
-  "author": "Flipppzw",
-  "license": "MIT",
-  "config": {
-	"forge": {
-	  "make_targets": {
-		"win32": [
-		  "squirrel"
-		]
-	  },
-	  "electronPackagerConfig": {
-		"packageManager": "npm",
-		"icon": "resource/app.ico",
-		"ignore": [
-		  ".idea"
-		],
-		"asar": false
-	  },
-	  "electronWinstallerConfig": {
-		"name": "ModDownloader"
-	  }
+	"name": "mod-downloader",
+	"productName": "ModDownloader",
+	"version": "1.1.2",
+	"description": "A simple tool for downloading Steam mods",
+	"main": "src/main.js",
+	"scripts": {
+		"start": "electron-forge start",
+		"package": "electron-forge package",
+		"make": "electron-forge make"
+	},
+	"engines": {
+		"node": "^10.11.0"
+	},
+	"author": "wuuzw",
+	"license": "MIT",
+	"config": {
+		"forge": {
+			"make_targets": {
+				"win32": [
+					"squirrel"
+				]
+			},
+			"electronPackagerConfig": {
+				"packageManager": "npm",
+				"icon": "resource/app.ico",
+				"ignore": [
+					".idea"
+				],
+				"asar": false
+			},
+			"electronWinstallerConfig": {
+				"name": "ModDownloader"
+			}
+		}
+	},
+	"dependencies": {
+		"electron-store": "^2.0.0",
+		"request": "^2.88.0",
+		"electron-compile": "^6.4.4",
+		"electron-squirrel-startup": "^1.0.0"
+	},
+	"devDependencies": {
+		"electron-forge": "^5.2.3",
+		"electron-prebuilt-compile": "4.0.0"
 	}
-  },
-  "dependencies": {
-	"electron-compile": "^6.4.3",
-	"electron-squirrel-startup": "^1.0.0",
-	"electron-store": "^2.0.0",
-	"request": "^2.87.0"
-  },
-  "devDependencies": {
-	"electron": "^2.0.8",
-	"electron-forge": "^5.2.2",
-	"electron-prebuilt-compile": "2.0.7"
-  }
 }
